@@ -12,8 +12,8 @@
     <h1>{{header.toUpperCase()}}</h1>
     <p>Akses tanggal: {{tanggal}}</p>
     <div class="add-item-form">
-      <input type="text" placeholder="add new item.." v-model="newItem" @keyup.enter="addNewItem">
-      <button class="btn btn-primary" @click="addNewItem">Save Item</button>
+      <input type="text" placeholder="add new item.." v-model="newItem" @keyup.enter="saveItem">
+      <button class="btn btn-primary" @click="saveItem">Save Item</button>
     </div>
     <ul>
       <li v-for="item in items">{{item}}</li>
@@ -35,9 +35,9 @@
         ]
       },
       methods: {
-        addNewItem: function(){
+        saveItem: function(){
           this.items.push(this.newItem);
-          newItem = '';
+          this.newItem = '';
         }
       }
     })
