@@ -11,8 +11,13 @@
   <div id="shopping-list">
     <h1>{{header.toUpperCase()}}</h1>
     <p>Akses tanggal: {{tanggal}}</p>
-    <p>{{pVModel.toUpperCase()}}</p>
-    <input type="text" placeholder="akses model?" v-model="pVModel">
+    <div class="add-item-form">
+      <input type="text" placeholder="add new item.." v-model="newItem" @keyup.enter="addNewItem">
+      <button class="btn btn-primary" @click="addNewItem">Save Item</button>
+    </div>
+    <ul>
+      <li v-for="item in items">{{item}}</li>
+    </ul>
   </div>
   <script src="https://unpkg.com/vue"></script>
   <script>
@@ -21,7 +26,19 @@
       data: {
         tanggal: new Date().toLocaleDateString(),
         header: 'Shopping List',
-        pVModel: ''
+        pVModel: '',
+        newItem: '',
+        items: [
+          "buy some milk",
+          "buy 1kg egss",
+          "buy nintendo"
+        ]
+      },
+      methods: {
+        addNewItem: function(){
+          this.items.push(this.newItem);
+          newItem = '';
+        }
       }
     })
 
