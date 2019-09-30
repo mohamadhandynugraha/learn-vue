@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,16 +8,22 @@
   <link rel="stylesheet" href="style.css">
   <title>Vue js</title>
 </head>
+
 <body>
   <div id="shopping-list">
-    <h1>{{header.toUpperCase()}}</h1>
-    <p>Akses tanggal: {{tanggal}}</p>
-    <div class="add-item-form">
+    <div class="header">
+      <h1>{{header.toUpperCase()}}</h1>
+      <p>Akses tanggal: {{tanggal}}</p>
+      <button v-if="state === 'default'" class="btn btn-primary" @click="changeState('edit')">Add Item</button>
+      <button v-else class="btn btn-cancel" @click="changeState('default')">Cancel</button>
+    </div>
+    <div v-if="state === 'edit'" class="add-item-form">
       <input type="text" placeholder="add new item.." v-model="newItem" @keyup.enter="saveItem">
-      <button class="btn btn-primary" @click="saveItem">Save Item</button>
+      <button class="btn btn-primary" @click="saveItem" :disabled="newItem.length === 0">Save Item</button>
     </div>
     <ul>
       <li v-for="item in items">{{item}}</li>
+      <p v-if="items.length === 0">No data.</p>
     </ul>
   </div>
   <script src="https://unpkg.com/vue"></script>
@@ -24,25 +31,29 @@
     const app = new Vue({
       el: '#shopping-list',
       data: {
+        state: 'edit',
         tanggal: new Date().toLocaleDateString(),
         header: 'Shopping List',
         pVModel: '',
         newItem: '',
         items: [
-          "buy some milk",
-          "buy 1kg egss",
-          "buy nintendo"
+          // "buy some milk",
+          // "buy 1kg egss",
+          // "buy nintendo"
         ]
       },
       methods: {
-        saveItem: function(){
+        saveItem: function () {
           this.items.push(this.newItem);
           this.newItem = '';
+        },
+
+        changeState: function(newState){
+          this.state = newState;
         }
       }
     })
-
-    console.log(app);
   </script>
 </body>
+
 </html>
