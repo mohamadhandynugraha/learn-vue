@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
   <title>Vue js</title>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
 <body>
@@ -19,6 +20,7 @@
     </div>
     <div v-if="state === 'edit'" class="add-item-form">
       <input type="text" placeholder="add new item.." v-model="newItem" @keyup.enter="saveItem">
+      <p>{{characterCount}}/200</p>
       <button class="btn btn-primary" @click="saveItem" :disabled="newItem.length === 0">Save Item</button>
     </div>
     <ul>
@@ -57,7 +59,10 @@
       },
       methods: {
         saveItem: function () {
-          this.items.push(this.newItem);
+          this.items.push({
+            label: this.newItem,
+            purchased: false
+          });
           this.newItem = '';
         },
 
@@ -68,6 +73,19 @@
 
         togglePurchased: function(item){
           item.purchased = !item.purchased;
+        }
+      },
+      computed: {
+        characterCount: function(){
+          if(this.newItem.length > 200) {
+            swal("", "Character is limit to 200", "warning");
+          } else {
+            return this.newItem.length
+          }
+        },
+
+        reversedItems: function(){
+          return this.items.slice(0).reverse();
         }
       }
     })
